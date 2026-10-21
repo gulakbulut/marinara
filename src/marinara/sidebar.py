@@ -340,4 +340,4 @@ def update_system_status(_: int, port: int) -> tuple[str, str]:
     ret = tomato.status(port=port, timeout=500)
     if ret.success:
         return "system-status-container", "System: Connected"
-        return "system-status-container status-off", "System: Disconnected"
+    return "system-status-container status-off", "System: Disconnected"
