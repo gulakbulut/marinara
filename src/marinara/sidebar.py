@@ -3,7 +3,6 @@ from dash_svg.Svg import Svg
 from tomato import tomato
 
 from marinara.icons import get_icon
-from marinara.utils import TOUT
 
 
 def create_sidebar(version: str = "0.0.1") -> html.Div:
@@ -336,7 +335,9 @@ def apply_sidebar_state(state: str) -> tuple[str, Svg, str]:
     State("tomato-port", "data"),
 )
 def update_system_status(_: int, port: int) -> tuple[str, str]:
-    ret = tomato.status(port=port, timeout=TOUT)
+       # Shorter than the 1 s interval, so the reply arrives before the next
+       # tick; otherwise Dash drops it and "Disconnected" never shows.
+       ret = tomato.status(port=port, timeout=500)
     if ret.success:
         return "system-status-container", "System: Connected"
     return "system-status-container status-off", "System: Disconnected"
